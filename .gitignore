@@ -1,0 +1,7 @@
+# Local
+node_modules
+build
+dist
+
+# Misc
+.npm-error
