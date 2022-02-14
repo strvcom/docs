@@ -2,9 +2,15 @@
   "name": "@strv/docs",
   "version": "0.1.0",
   "description": "An opinionated codebase documentation tool by @strvcom",
-  "main": "index.js",
+  "main": "dist/my-lib.cjs.js",
+  "module": "dist/my-lib.esm.js",
+  "browser": "dist/my-lib.umd.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "test"
+    "dev": "rollup -c -w",
+    "build": "rollup -c"
   },
   "keywords": [
     "documentation",
@@ -13,6 +19,19 @@
     "guides",
     "react"
   ],
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "author": "Lucas Constantino Silva <lucasconstantinosilva@gmail.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@rollup/plugin-typescript": "^8.3.0",
+    "@strv/commitlint-config": "^2.0.0",
+    "@strv/eslint-config-typescript": "^3.0.0",
+    "@strv/prettier-config": "^2.0.0",
+    "eslint": "^8.9.0",
+    "prettier": "^2.5.1",
+    "rollup": "^2.67.2",
+    "typescript": "^4.5.5"
+  }
 }

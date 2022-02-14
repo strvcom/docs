@@ -1,0 +1,3 @@
+{
+  "extends": ["@strv/typescript", "@strv/typescript/react"]
+}

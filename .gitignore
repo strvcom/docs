@@ -2,6 +2,7 @@
 node_modules
 build
 dist
+yarn.lock # libs are bundle
 
 # Misc
 .npm-error
