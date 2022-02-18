@@ -2,8 +2,9 @@
 node_modules
 build
 dist
-yarn.lock # libs are bundle
 
 # Misc
+yarn-lock
+yarn-error.log
 .npm-error
 .eslintcache
