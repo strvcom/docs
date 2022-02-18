@@ -1,0 +1,3 @@
+.main-wrapper a[target='_blank']:after {
+  content: '↗';
+}

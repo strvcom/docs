@@ -1,7 +1,11 @@
+/* eslint-disable node/no-unsupported-features/es-syntax */
+import commonjs from '@rollup/plugin-commonjs'
 import typescript from '@rollup/plugin-typescript'
+import copy from 'rollup-plugin-copy'
+
 import pkg from './package.json'
 
-export default [
+const config = [
   // CommonJS (for Node) and ES module (for bundlers) build.
   // (We could have three entries in the configuration array
   // instead of two, but it's quicker to generate multiple
@@ -14,6 +18,12 @@ export default [
       { file: pkg.main, format: 'cjs' },
       { file: pkg.module, format: 'es' },
     ],
-    plugins: [typescript({ tsconfig: './tsconfig.json' })],
+    plugins: [
+      copy({ targets: [{ src: 'src/static', dest: 'dist' }] }),
+      commonjs(),
+      typescript({ tsconfig: './tsconfig.json' }),
+    ],
   },
 ]
+
+export default config
