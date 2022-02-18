@@ -4,9 +4,13 @@ import merge from 'deepmerge'
 import fs from 'fs'
 import path from 'path'
 // import classic from '@docusaurus/preset-classic'
+/// @ts-ignore no need for typing here
 import darkTheme from 'prism-react-renderer/themes/dracula'
+/// @ts-ignore no need for typing here
 import theme from 'prism-react-renderer/themes/github'
 import type * as ts from 'ts-toolbelt'
+
+import { sidebarItemsGenerator } from './sidebarItemsGenerator'
 
 type STRVConfig = Config & {
   strv?: {
@@ -73,9 +77,7 @@ const has = {
   classicPreset: (config: SafeConfig) =>
     Boolean(
       config.presets.find((preset) =>
-        typeof preset === 'string'
-          ? preset === 'classic'
-          : preset[0] === 'classic'
+        typeof preset === 'string' ? preset === 'classic' : preset[0] === 'classic'
       )
     ),
 
@@ -84,15 +86,13 @@ const has = {
      * Checks if we should install the pages plugin.
      */
     pages: (config: SafeConfig) =>
-      config.strv?.pages !== false &&
-      fs.existsSync(projectPath('./docs/pages')),
+      config.strv?.pages !== false && fs.existsSync(projectPath('./docs/pages')),
 
     /**
      * Checks if we should install the general docs plugin.
      */
     docs: (config: SafeConfig) =>
-      config.strv?.docs !== false &&
-      fs.existsSync(projectPath('./docs/general')),
+      config.strv?.docs !== false && fs.existsSync(projectPath('./docs/general')),
 
     /**
      * Checks if we should install the adr plugin.
@@ -181,7 +181,7 @@ const install = {
           remarkPlugins: [require('mdx-mermaid')],
           beforeDefaultRemarkPlugins: remarkPlugins,
           sidebarPath: require.resolve('./static/components-sidebar.json'),
-          // sidebarItemsGenerator,
+          sidebarItemsGenerator,
         },
       ]),
   },

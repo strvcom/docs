@@ -1,1 +1,1 @@
-module.exports = require('@strv/prettier-config')
+module.exports = { ...require('@strv/prettier-config'), printWidth: 100 }
