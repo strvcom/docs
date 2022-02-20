@@ -1,5 +1,6 @@
 /* eslint-disable import/no-default-export */
 import type { Config } from '@docusaurus/types'
+import type { PackageJson } from 'type-fest'
 import merge from 'deepmerge'
 import fs from 'fs'
 import path from 'path'
@@ -19,6 +20,7 @@ type STRVConfig = Config & {
     docs?: boolean
     adr?: boolean
     components?: boolean
+    github?: boolean
   }
 }
 
@@ -34,6 +36,18 @@ const plugins = {
  * Resolves a path relative to the project's root.
  */
 const projectPath = (relative: string) => path.resolve(process.cwd(), relative)
+
+/**
+ * Commonly used paths.
+ */
+const paths = {
+  package: projectPath('./package.json'),
+}
+
+/**
+ * Package JSON of consuming project.
+ */
+const pack: PackageJson | null = fs.existsSync(paths.package) ? require(paths.package) : null
 
 const defaults: Partial<Config> = {
   staticDirectories: ['docs/static'],
@@ -52,32 +66,9 @@ const defaults: Partial<Config> = {
 
   /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
   themeConfig: {
-    colorMode: {
-      respectPrefersColorScheme: false,
-    },
-    navbar: {
-      logo: {
-        alt: 'Docs Logo',
-        src: 'logo.png',
-        href: '/',
-      },
-      items: [
-        { to: '/docs', label: 'Docs', position: 'left' },
-        { to: '/components', label: 'Components', position: 'left' },
-        { to: '/adr', label: 'ADR', position: 'left' },
-        { to: '/changelog', label: 'Changelog', position: 'left' },
-
-        {
-          href: 'https://github.com/strvcom/strv-web',
-          label: 'GitHub',
-          position: 'right',
-        },
-      ],
-    },
-    prism: {
-      theme,
-      darkTheme,
-    },
+    colorMode: { respectPrefersColorScheme: false },
+    navbar: { items: [] }, // initiate
+    prism: { theme, darkTheme },
   },
 
   presets: [], // initiate
@@ -118,6 +109,14 @@ const has = {
      * Checks if we should install the components plugin.
      */
     components: (config: SafeConfig) => config.strv?.components !== false,
+
+    /**
+     * Checks if we should install GitHub links.
+     */
+    github: (config: SafeConfig) =>
+      config.strv?.github !== false &&
+      typeof pack?.repository === 'string' &&
+      pack.repository.includes('github'),
   },
 }
 
@@ -144,7 +143,7 @@ const install = {
    * Installs the plugin to server docs/pages content.
    */
   plugins: {
-    pages: (config: SafeConfig) =>
+    pages: (config: SafeConfig) => {
       config.plugins.push([
         '@docusaurus/plugin-content-pages',
         {
@@ -153,9 +152,10 @@ const install = {
           routeBasePath: '/',
           ...plugins,
         },
-      ]),
+      ])
+    },
 
-    docs: (config: SafeConfig) =>
+    docs: (config: SafeConfig) => {
       config.plugins.push([
         '@docusaurus/plugin-content-docs',
         /** @type {import('@docusaurus/plugin-content-docs').PluginOptions} */
@@ -166,9 +166,13 @@ const install = {
           sidebarPath: projectPath('./docs/general/sidebars.js'),
           ...plugins,
         },
-      ]),
+      ])
 
-    adr: (config: SafeConfig) =>
+      // @ts-ignore
+      config.themeConfig.navbar.items.push({ to: '/docs', label: 'Docs', position: 'left' })
+    },
+
+    adr: (config: SafeConfig) => {
       config.plugins.push([
         '@docusaurus/plugin-content-docs',
         /** @type {import('@docusaurus/plugin-content-docs').PluginOptions} */
@@ -179,9 +183,13 @@ const install = {
           sidebarPath: projectPath('./docs/adr/sidebars.js'),
           ...plugins,
         },
-      ]),
+      ])
 
-    components: (config: SafeConfig) =>
+      // @ts-ignore
+      config.themeConfig.navbar.items.push({ to: '/adr', label: 'ADR', position: 'left' })
+    },
+
+    components: (config: SafeConfig) => {
       config.plugins.push([
         '@docusaurus/plugin-content-docs',
         /** @type {import('@docusaurus/plugin-content-docs').PluginOptions} */
@@ -193,7 +201,27 @@ const install = {
           sidebarItemsGenerator,
           ...plugins,
         },
-      ]),
+      ])
+
+      // @ts-ignore
+      config.themeConfig.navbar.items.push({
+        to: '/components',
+        label: 'Components',
+        position: 'left',
+      })
+    },
+  },
+
+  /**
+   * Installs the GitHub link on the navbar.
+   */
+  github: (config: SafeConfig) => {
+    // @ts-ignore
+    config.themeConfig.navbar.items.push({
+      href: pack?.repository as string,
+      label: 'GitHub',
+      position: 'right',
+    })
   },
 }
 
