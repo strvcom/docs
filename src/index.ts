@@ -10,6 +10,7 @@ import darkTheme from 'prism-react-renderer/themes/dracula'
 import theme from 'prism-react-renderer/themes/github'
 import type * as ts from 'ts-toolbelt'
 
+import { codeFragment } from './remark-plugins/code-fragment'
 import { sidebarItemsGenerator } from './sidebarItemsGenerator'
 
 type STRVConfig = Config & {
@@ -24,7 +25,10 @@ type STRVConfig = Config & {
 type SafeConfig = Omit<STRVConfig, 'presets' | 'plugins'> &
   ts.Object.Required<STRVConfig, 'presets' | 'plugins'>
 
-const remarkPlugins = [require('mdx-mermaid')]
+const plugins = {
+  remarkPlugins: [require('mdx-mermaid')],
+  beforeDefaultRemarkPlugins: [codeFragment],
+}
 
 /**
  * Resolves a path relative to the project's root.
@@ -120,7 +124,7 @@ const install = {
           pages: false,
           blog: false,
           theme: {
-            customCss: [require.resolve('./static/strv-docs.css')],
+            customCss: [require.resolve('../static/strv-docs.css')],
           },
         },
       ]),
@@ -137,8 +141,7 @@ const install = {
           id: 'pages',
           path: 'docs/pages',
           routeBasePath: '/',
-          remarkPlugins: remarkPlugins,
-          // beforeDefaultRemarkPlugins: remarkPlugins,
+          ...plugins,
         },
       ]),
 
@@ -150,9 +153,8 @@ const install = {
           id: 'documentation',
           path: 'docs/general',
           routeBasePath: '/docs',
-          remarkPlugins: [require('mdx-mermaid')],
-          // beforeDefaultRemarkPlugins: remarkPlugins,
           sidebarPath: projectPath('./docs/general/sidebars.js'),
+          ...plugins,
         },
       ]),
 
@@ -164,9 +166,8 @@ const install = {
           id: 'adr',
           path: 'docs/adr',
           routeBasePath: '/adr',
-          remarkPlugins: [require('mdx-mermaid')],
-          beforeDefaultRemarkPlugins: remarkPlugins,
           sidebarPath: projectPath('./docs/adr/sidebars.js'),
+          ...plugins,
         },
       ]),
 
@@ -178,10 +179,9 @@ const install = {
           id: 'components',
           path: 'src',
           routeBasePath: '/components',
-          remarkPlugins: [require('mdx-mermaid')],
-          beforeDefaultRemarkPlugins: remarkPlugins,
-          sidebarPath: require.resolve('./static/components-sidebar.json'),
+          sidebarPath: require.resolve('../static/components-sidebar.json'),
           sidebarItemsGenerator,
+          ...plugins,
         },
       ]),
   },
@@ -190,7 +190,7 @@ const install = {
 /**
  * STRV opinionated Docusaurus config creator.
  */
-const strvDocs = (overrides: STRVConfig) => {
+const docs = (overrides: STRVConfig) => {
   const config = merge(defaults, overrides) as SafeConfig
 
   const shouldInstall = {
@@ -221,4 +221,4 @@ const strvDocs = (overrides: STRVConfig) => {
   return config
 }
 
-export default strvDocs
+export { docs }
