@@ -6,9 +6,13 @@
     "@strv/typescript",
     "prettier"
   ],
+  "files": ["*.jsx", "*.ts", "*.tsx", "*.d.ts"],
   "parserOptions": { "project": "./tsconfig.json", "ecmaVersion": 2020 },
   "rules": {
     "import/no-default-export": "off",
-    "@typescript-eslint/ban-ts-comment": "off"
+    "@typescript-eslint/ban-ts-comment": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "node/global-require": "off",
+    "@typescript-eslint/no-require-imports": "off"
   }
 }

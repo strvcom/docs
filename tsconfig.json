@@ -1,9 +1,14 @@
 {
   "compilerOptions": {
-    "target": "es6",
-    "module": "esnext",
+    "target": "ES2015",
+    "jsx": "react",
+    "module": "commonjs",
     "moduleResolution": "node",
     "strict": true,
-    "esModuleInterop": true
-  }
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "rootDir": "src",
+    "outDir": "lib"
+  },
+  "include": ["global.d.ts", "src"],
 }

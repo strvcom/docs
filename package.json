@@ -2,15 +2,17 @@
   "name": "@strv/docs",
   "version": "0.1.0",
   "description": "An opinionated Docusaurus preset by @strvcom",
-  "main": "dist/my-lib.cjs.js",
-  "module": "dist/my-lib.esm.js",
-  "browser": "dist/my-lib.umd.js",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./components": "./lib/components.js"
+  },
   "files": [
     "dist"
   ],
   "scripts": {
-    "dev": "rollup -c -w",
-    "build": "rollup -c",
+    "dev": "tsc --watch",
+    "build": "tsc",
     "lint": "eslint --ext .ts,.tsx,.js,.jsx ./src --cache"
   },
   "publishConfig": {
@@ -30,28 +32,32 @@
   "license": "MIT",
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^2.0.0-beta.15",
+    "@docusaurus/theme-classic": "^2.0.0-beta.15",
     "@docusaurus/types": "^2.0.0-beta.15",
-    "@rollup/plugin-commonjs": "^21.0.1",
-    "@rollup/plugin-node-resolve": "^13.1.3",
-    "@rollup/plugin-replace": "^3.1.0",
-    "@rollup/plugin-typescript": "^8.3.0",
     "@strv/commitlint-config": "^2.0.0",
     "@strv/eslint-config-node": "^3.0.0",
     "@strv/eslint-config-react": "^4.0.0",
     "@strv/eslint-config-typescript": "^3.0.0",
     "@strv/prettier-config": "^2.0.0",
+    "@types/react-modal": "^3.13.1",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",
     "prettier": "^2.5.1",
-    "rollup": "^2.67.2",
-    "rollup-plugin-copy": "^3.4.0",
+    "react": "^17.0.2",
     "ts-toolbelt": "^9.6.0",
     "typescript": "^4.5.5"
   },
   "dependencies": {
     "@docusaurus/preset-classic": "^2.0.0-beta.15",
+    "@docusaurus/theme-common": "^2.0.0-beta.15",
     "deepmerge": "^4.2.2",
     "mdx-mermaid": "^1.2.1",
-    "prism-react-renderer": "^1.3.1"
+    "prism-react-renderer": "^1.3.1",
+    "react-modal": "^3.14.4",
+    "unist-util-visit": "2.x.x"
+  },
+  "peerDependencies": {
+    "react": "^0.14.0 || ^15.0.0 || ^16 || ^17",
+    "react-dom": "^0.14.0 || ^15.0.0 || ^16 || ^17"
   }
 }
