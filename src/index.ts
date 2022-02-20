@@ -40,6 +40,16 @@ const defaults: Partial<Config> = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
 
+  themes: [
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      {
+        docsRouteBasePath: '/',
+        ignoreFiles: /changelog/,
+      },
+    ],
+  ],
+
   /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
   themeConfig: {
     colorMode: {
@@ -220,5 +230,7 @@ const docs = (overrides: STRVConfig) => {
 
   return config
 }
+
+export type { STRVConfig }
 
 export { docs }
