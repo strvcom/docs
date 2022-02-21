@@ -1,0 +1,7 @@
+{
+  "name": "strv-docs-example",
+  "version": "1.0.0",
+  "description": "An example on how to use @strv/docs to the fullest",
+  "license": "MIT",
+  "private": true
+}
