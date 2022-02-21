@@ -1,6 +1,5 @@
 /* eslint-disable import/no-default-export */
 import type { Config } from '@docusaurus/types'
-import type { PackageJson } from 'type-fest'
 import merge from 'deepmerge'
 import fs from 'fs'
 import path from 'path'
@@ -10,6 +9,7 @@ import darkTheme from 'prism-react-renderer/themes/dracula'
 /// @ts-ignore no need for typing here
 import theme from 'prism-react-renderer/themes/github'
 import type * as ts from 'ts-toolbelt'
+import type { PackageJson } from 'type-fest'
 
 import { codeFragment } from './remark-plugins/code-fragment'
 import { sidebarItemsGenerator } from './sidebarItemsGenerator'
@@ -59,7 +59,7 @@ const defaults: Partial<Config> = {
       require.resolve('@easyops-cn/docusaurus-search-local'),
       {
         docsRouteBasePath: '/',
-        ignoreFiles: /changelog/,
+        ignoreFiles: /changelog/u,
       },
     ],
   ],
