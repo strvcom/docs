@@ -23,6 +23,7 @@ type STRVConfig = Config & {
       docs?: boolean
       adr?: boolean
       components?: boolean
+      changelog?: boolean
       github?: boolean
     }
   }
@@ -118,6 +119,13 @@ const has = {
      * Checks if we should install the components plugin.
      */
     components: (config: SafeConfig) => config.customFields?.strv?.components !== false,
+
+    /**
+     * Checks if we should install the changelog plugin.
+     */
+    changelog: (config: SafeConfig) =>
+      config.customFields?.strv?.changelog !== false &&
+      fs.existsSync(projectPath('./docs/pages/changelog.mdx')),
 
     /**
      * Checks if we should install GitHub links.
@@ -223,11 +231,17 @@ const install = {
         position: 'left',
       })
     },
+
+    changelog: (config: SafeConfig) => {
+      // @ts-ignore
+      config.themeConfig.navbar.items.push({
+        to: '/changelog',
+        label: 'Changelog',
+        position: 'left',
+      })
+    },
   },
 
-  /**
-   * Installs the GitHub link on the navbar.
-   */
   github: (config: SafeConfig) => {
     // @ts-ignore
     config.themeConfig.navbar.items.push({
@@ -250,6 +264,7 @@ const docs = (overrides: STRVConfig) => {
     pages: has.enabled.pages(config),
     docs: has.enabled.docs(config),
     adr: has.enabled.adr(config),
+    changelog: has.enabled.changelog(config),
     components: has.enabled.components(config),
   }
 
@@ -265,13 +280,14 @@ const docs = (overrides: STRVConfig) => {
   // Install general docs, if enabled.
   if (shouldInstall.docs) install.plugins.docs(config)
 
-  // Install adr docs, if enabled.
-  if (shouldInstall.adr) install.plugins.adr(config)
-
   // Install components docs, if enabled.
   if (shouldInstall.components) install.plugins.components(config)
 
-  // process.exit(0)
+  // Install adr docs, if enabled.
+  if (shouldInstall.adr) install.plugins.adr(config)
+
+  // Install changelog page, if enabled.
+  if (shouldInstall.changelog) install.plugins.changelog(config)
 
   return config
 }
