@@ -15,12 +15,14 @@ import { codeFragment } from './remark-plugins/code-fragment'
 import { sidebarItemsGenerator } from './sidebarItemsGenerator'
 
 type STRVConfig = Config & {
-  strv?: {
-    pages?: boolean
-    docs?: boolean
-    adr?: boolean
-    components?: boolean
-    github?: boolean
+  customFields?: {
+    strv?: {
+      pages?: boolean
+      docs?: boolean
+      adr?: boolean
+      components?: boolean
+      github?: boolean
+    }
   }
 }
 
@@ -91,30 +93,30 @@ const has = {
      * Checks if we should install the pages plugin.
      */
     pages: (config: SafeConfig) =>
-      config.strv?.pages !== false && fs.existsSync(projectPath('./docs/pages')),
+      config.customFields?.strv?.pages !== false && fs.existsSync(projectPath('./docs/pages')),
 
     /**
      * Checks if we should install the general docs plugin.
      */
     docs: (config: SafeConfig) =>
-      config.strv?.docs !== false && fs.existsSync(projectPath('./docs/general')),
+      config.customFields?.strv?.docs !== false && fs.existsSync(projectPath('./docs/general')),
 
     /**
      * Checks if we should install the adr plugin.
      */
     adr: (config: SafeConfig) =>
-      config.strv?.adr !== false && fs.existsSync(projectPath('./docs/adr')),
+      config.customFields?.strv?.adr !== false && fs.existsSync(projectPath('./docs/adr')),
 
     /**
      * Checks if we should install the components plugin.
      */
-    components: (config: SafeConfig) => config.strv?.components !== false,
+    components: (config: SafeConfig) => config.customFields?.strv?.components !== false,
 
     /**
      * Checks if we should install GitHub links.
      */
     github: (config: SafeConfig) =>
-      config.strv?.github !== false &&
+      config.customFields?.strv?.github !== false &&
       typeof pack?.repository === 'string' &&
       pack.repository.includes('github'),
   },
@@ -163,7 +165,7 @@ const install = {
           id: 'documentation',
           path: 'docs/general',
           routeBasePath: '/docs',
-          sidebarPath: projectPath('./docs/general/sidebars.js'),
+          sidebarPath: projectPath('./docs/general/sidebar.js'),
           ...plugins,
         },
       ])
@@ -180,7 +182,7 @@ const install = {
           id: 'adr',
           path: 'docs/adr',
           routeBasePath: '/adr',
-          sidebarPath: projectPath('./docs/adr/sidebars.js'),
+          sidebarPath: require.resolve('../static/adr-sidebar.js'),
           ...plugins,
         },
       ])
