@@ -13,11 +13,16 @@ module.exports = require('@strv/docs').docs(
     projectName: 'strv-docs-example',
     deploymentBranch: 'gh-pages', // if applied
 
-    customFields: {
-      strv: {
-        components: false,
-      },
-    },
+    // Optionally disable some of the automatic generated docs.
+    // customFields: {
+    //   strv: {
+    //     pages: false,
+    //     docs: false,
+    //     adr: false,
+    //     components: false,
+    //     github: false,
+    //   },
+    // },
 
     staticDirectories: ['docs/static'],
 

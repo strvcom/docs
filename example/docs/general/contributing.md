@@ -11,8 +11,7 @@ This is an example of a document that would examplain how to contribute to the a
 ## Git
 
 Check [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) to better understand the
-following. Also, keep in mind this is no API or library project, and Conventional Commits here play
-a role in [automating process](./deployment.md), but no big part in ensuring application stability.
+following. Also, keep in mind this is no API or library project, and Conventional Commits here play a role in automating process, but no big part in ensuring application stability.
 
 ### Allowed types:
 
