@@ -12,7 +12,7 @@ const importCodeFragmentNode = {
   value: "import { CodeFragment } from '@strv/docs/components'",
 }
 
-const altRegex = /@code-fragment(?<inline>-inline(\((?<label>.+)\))?)?:?(?<fragmentName>[a-z]+)?/iu
+const altRegex = /@code-fragment(?<inline>-inline(?:\((?<label>.+)\))?)?:?(?<fragmentName>.+)?/iu
 
 /**
  * Unist plugin declaration to inject CodeFragment, and append at place of use.
