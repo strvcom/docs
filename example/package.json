@@ -3,5 +3,14 @@
   "version": "1.0.0",
   "description": "An example on how to use @strv/docs to the fullest",
   "license": "MIT",
-  "private": true
+  "private": true,
+  "scripts": {
+    "docs:start": "docusaurus start -p 8001",
+    "docs:build": "docusaurus build --out-dir build-docs",
+    "docs:clear": "docusaurus clear",
+    "docs:serve": "docusaurus serve -p 8001 --dir build-docs"
+  },
+  "dependencies": {
+    "@strv/docs": "../"
+  }
 }
