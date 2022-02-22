@@ -47,6 +47,11 @@ module.exports = require('@strv/docs').docs(
               { label: 'strv.com', href: 'https://www.strv.com' },
             ],
           },
+
+          {
+            title: 'Other',
+            items: [{ label: 'Some Page', to: '/some-page' }],
+          },
         ],
       },
     },

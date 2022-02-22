@@ -1,5 +1,5 @@
 /* eslint-disable import/no-default-export */
-import type { Config } from '@docusaurus/types'
+import type { Config, PluginModule } from '@docusaurus/types'
 import merge from 'deepmerge'
 import fs from 'fs'
 import path from 'path'
@@ -11,12 +11,14 @@ import theme from 'prism-react-renderer/themes/github'
 import type * as ts from 'ts-toolbelt'
 import type { PackageJson } from 'type-fest'
 
+import homepage from './plugins/homepage'
 import { codeFragment } from './remark-plugins/code-fragment'
 import { sidebarItemsGenerator } from './sidebarItemsGenerator'
 
 type STRVConfig = Config & {
   customFields?: {
     strv?: {
+      homepage?: boolean
       pages?: boolean
       docs?: boolean
       adr?: boolean
@@ -90,6 +92,11 @@ const has = {
 
   enabled: {
     /**
+     * Checks if we should install the homepage plugin.
+     */
+    homepage: (config: SafeConfig) => config.customFields?.strv?.homepage !== false,
+
+    /**
      * Checks if we should install the pages plugin.
      */
     pages: (config: SafeConfig) =>
@@ -145,6 +152,10 @@ const install = {
    * Installs the plugin to server docs/pages content.
    */
   plugins: {
+    homepage: (config: SafeConfig) => {
+      config.plugins.push([homepage as PluginModule, {}])
+    },
+
     pages: (config: SafeConfig) => {
       config.plugins.push([
         '@docusaurus/plugin-content-pages',
@@ -235,6 +246,7 @@ const docs = (overrides: STRVConfig) => {
 
   const shouldInstall = {
     preset: !has.classicPreset(config),
+    homepage: has.enabled.homepage(config),
     pages: has.enabled.pages(config),
     docs: has.enabled.docs(config),
     adr: has.enabled.adr(config),
@@ -243,6 +255,9 @@ const docs = (overrides: STRVConfig) => {
 
   // Install classic preset, if not installed already.
   if (shouldInstall.preset) install.preset.classic(config)
+
+  // Install homepage, if enabled.
+  if (shouldInstall.homepage) install.plugins.homepage(config)
 
   // Install pages, if enabled.
   if (shouldInstall.pages) install.plugins.pages(config)

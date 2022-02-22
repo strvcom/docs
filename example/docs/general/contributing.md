@@ -51,7 +51,7 @@ For all purposes hereinafter, these are the allowed types:
 - **Name format:** `<type>(<scope>)?: <description>` _(example: `feat(footer): add social links`)_
 - **Target:** `main` branch is targeted by default. See [Deployment](./deployment.md) for details on
   how/when the integrated PR gets to production.
-- **Template:** new PRs can benefit from the pre-configured [template](../.github/pull_request_template.md). In exceptional
+- **Template:** new PRs can benefit from the pre-configured template. In exceptional
   cases, it's acceptable for a PR to fall off the recommended pattern.
 - **Strategy:** [Squash and merge](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/about-merge-methods-on-github#squashing-your-merge-commits).
   This means a single change set – a branch – will become a single commit in the target `main` tree.

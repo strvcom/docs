@@ -3,6 +3,8 @@ import DocCardList from '@theme/DocCardList'
 import Layout from '@theme/Layout'
 import React from 'react'
 
+import type { STRVConfig } from '../index'
+
 const docs = {
   docs: {
     label: 'Documentation',
@@ -29,7 +31,14 @@ const docs = {
   },
 }
 
-const Homepage: React.FC = () => (
+interface IProps {
+  data: {
+    title: string
+    strv: NonNullable<NonNullable<STRVConfig['customFields']>['strv']>
+  }
+}
+
+const HomePageIndex: React.FC<IProps> = ({ data }) => (
   <Layout title="Welcome">
     <div className="container container--fluid margin-vert--lg">
       <div className="row mdxPageWrapper_node_modules-@docusaurus-theme-classic-lib-next-theme-MDXPage-styles-module">
@@ -37,17 +46,19 @@ const Homepage: React.FC = () => (
           <div className="theme-doc-markdown markdown">
             <h1>Welcome</h1>
 
-            <p>This is the entrypoint for the STRV Website's documentation.</p>
+            <p>This is the entrypoint for the {data.title}&apos;s documentation.</p>
 
             <div className="margin-top--lg">
               {/* @ts-ignore */}
               <DocsVersionProvider version={{ docs }}>
                 <DocCardList
-                  items={Object.entries(docs).map(([id, item]) => ({
-                    ...item,
-                    type: 'link',
-                    docId: id,
-                  }))}
+                  items={Object.entries(docs)
+                    .filter(([id]) => data.strv[id as keyof typeof data.strv] !== false)
+                    .map(([id, item]) => ({
+                      ...item,
+                      type: 'link',
+                      docId: id,
+                    }))}
                 />
               </DocsVersionProvider>
             </div>
@@ -58,4 +69,4 @@ const Homepage: React.FC = () => (
   </Layout>
 )
 
-export default Homepage
+export default HomePageIndex
