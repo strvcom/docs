@@ -63,7 +63,9 @@ const defaults: Partial<Config> = {
     [
       require.resolve('@easyops-cn/docusaurus-search-local'),
       {
-        docsRouteBasePath: '/',
+        docsRouteBasePath: '/docs',
+        docsDir: 'docs/general',
+        indexPages: true,
         ignoreFiles: /changelog/u,
       },
     ],
