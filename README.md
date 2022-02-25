@@ -6,7 +6,7 @@ An opinionated Docusaurus setup by @strvcom, used to help document products.
 
 ## Introduction
 
-This library is a pre-configured Docusarus setup, originally used to create the [documentation](https://strvcom.github.io/strv-web/) for the STRV Website. It is composed with a set of defaults that aim at simplify and standardize the process of documentating projects – inside, and possibly beyond STRV.
+This library is a pre-configured Docusarus setup generator, originally used to create the [documentation](https://strvcom.github.io/strv-web/) for the STRV Website. It is composed of a set of defaults that aim at simplifying and standardizing the process of documenting projects – inside, and possibly beyond STRV.
 
 If used to the fullest, this setup includes:
 
@@ -18,7 +18,7 @@ If used to the fullest, this setup includes:
 - Navbar links for the above
 - A code-fragment rehype plugin
 
-All of these are opt-outs, meaning they can easily be disabled through configuration.
+All of these are opt-outs, meaning they can easily be disabled through configuration, but will be on by default.
 
 In the end, `@strv/docs` main output is a [Docusaurus config](https://docusaurus.io/docs/next/configuration), and further configurations are possible and expected for each project's specific needs.
 
@@ -79,7 +79,7 @@ module.exports = require('@strv/docs').docs({
 })
 ```
 
-For some configuration above, no extra effort is needed. Some of them, however, require that you start creating docs in specific locations. Furthermore, the doc generating modules – `docs`, `adr`, and `component``- will use automated sidebars, which can be overriding by placing a sidebar file on a specific location.
+For some configuration above, no extra effort is needed. Some of them, however, require that you start creating docs in specific locations. Furthermore, the doc generating modules – `docs`, `adr`, and `component``- will use automated sidebars, which can be overriden by placing a sidebar file on specific locations:
 
 | Module | Description | Watched files | Custom sidebar |
 | ------ | ----------- | --------- | -------------- |
