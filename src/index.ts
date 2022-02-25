@@ -190,6 +190,7 @@ const install = {
             projectPath('./docs/general/sidebar.js'),
             require.resolve('../static/general-sidebar.js'),
           ].find((sidebar) => fs.existsSync(sidebar)),
+          sidebarItemsGenerator,
           ...plugins,
         },
       ])
@@ -210,6 +211,7 @@ const install = {
             projectPath('./docs/adr/sidebar.js'),
             require.resolve('../static/adr-sidebar.js'),
           ].find((sidebar) => fs.existsSync(sidebar)),
+          sidebarItemsGenerator,
           ...plugins,
         },
       ])
