@@ -22,7 +22,7 @@ type STRVConfig = Config & {
       pages?: boolean
       docs?: boolean
       adr?: boolean
-      components?: boolean
+      components?: boolean | string
       changelog?: boolean
       github?: boolean
     }
@@ -186,7 +186,10 @@ const install = {
           id: 'documentation',
           path: 'docs/general',
           routeBasePath: '/docs',
-          sidebarPath: projectPath('./docs/general/sidebar.js'),
+          sidebarPath: [
+            projectPath('./docs/general/sidebar.js'),
+            require.resolve('../static/general-sidebar.js'),
+          ].find((sidebar) => fs.existsSync(sidebar)),
           ...plugins,
         },
       ])
@@ -203,7 +206,10 @@ const install = {
           id: 'adr',
           path: 'docs/adr',
           routeBasePath: '/adr',
-          sidebarPath: require.resolve('../static/adr-sidebar.js'),
+          sidebarPath: [
+            projectPath('./docs/adr/sidebar.js'),
+            require.resolve('../static/adr-sidebar.js'),
+          ].find((sidebar) => fs.existsSync(sidebar)),
           ...plugins,
         },
       ])
@@ -213,14 +219,22 @@ const install = {
     },
 
     components: (config: SafeConfig) => {
+      const src =
+        typeof config.customFields?.strv?.components === 'string'
+          ? config.customFields?.strv?.components
+          : 'src'
+
       config.plugins.push([
         '@docusaurus/plugin-content-docs',
         /** @type {import('@docusaurus/plugin-content-docs').PluginOptions} */
         {
           id: 'components',
-          path: 'src',
+          path: src,
           routeBasePath: '/components',
-          sidebarPath: require.resolve('../static/components-sidebar.json'),
+          sidebarPath: [
+            projectPath('./docs/components-sidebar.js'),
+            require.resolve('../static/components-sidebar.json'),
+          ].find((sidebar) => fs.existsSync(sidebar)),
           sidebarItemsGenerator,
           ...plugins,
         },

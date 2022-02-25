@@ -15,11 +15,6 @@ const sidebarItemsGenerator: SidebarItemsGeneratorOption = async (context) => {
   const docs = Object.fromEntries(context.docs.map((doc) => [doc.id, doc]))
 
   /**
-   * @typedef {import('@docusaurus/plugin-content-docs/src/sidebars/types').SidebarItem} SidebarItem
-   * @typedef {import('@docusaurus/plugin-content-docs/src/sidebars/types').SidebarItemCategoryLink} SidebarItemCategoryLink
-   */
-
-  /**
    * Finds a position of a sidebar item.
    */
   const getSidebarPosition = (
