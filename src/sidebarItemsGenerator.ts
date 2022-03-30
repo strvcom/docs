@@ -1,7 +1,8 @@
 import type {
   SidebarItemsGeneratorOption,
-  SidebarItem,
-  SidebarItemCategoryLink,
+  NormalizedSidebarItem,
+  SidebarItemCategoryLinkDoc,
+  SidebarItemCategoryLinkGeneratedIndexConfig,
 } from '@docusaurus/plugin-content-docs/src/sidebars/types'
 
 /**
@@ -18,10 +19,13 @@ const sidebarItemsGenerator: SidebarItemsGeneratorOption = async (context) => {
    * Finds a position of a sidebar item.
    */
   const getSidebarPosition = (
-    item: SidebarItem | SidebarItemCategoryLink | undefined
+    item:
+      | NormalizedSidebarItem
+      | SidebarItemCategoryLinkDoc
+      | SidebarItemCategoryLinkGeneratedIndexConfig
   ): number | undefined => {
-    if (item?.type === 'category') return getSidebarPosition(item.link ? item.link : item.items[0])
-    if (item?.type === 'doc') return docs[item.id].sidebarPosition
+    if (item.type === 'category') return getSidebarPosition(item.link ? item.link : item.items[0])
+    if (item.type === 'doc') return docs[item.id].sidebarPosition
   }
 
   /**
@@ -31,7 +35,7 @@ const sidebarItemsGenerator: SidebarItemsGeneratorOption = async (context) => {
    * 2. Add category labels based on index doc.
    * 3. Ensure sidebar_position is respected for automated trees.
    */
-  const processItem = (item: SidebarItem) => {
+  const processItem = (item: NormalizedSidebarItem) => {
     if (item.type === 'category') {
       // Fix root
       if (item.items.length === 0 && item.link?.type === 'doc') {
